@@ -9,7 +9,10 @@ from datetime import datetime
 
 DATABASE_URL = "sqlite+aiosql:///./test.db"
 
-class Post(DeclarativeBase):
+class Base(DeclarativeBase):
+    pass
+
+class Post(Base):
     __tablename__ = "Posts"
     id = Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     caption = Column(Text)
@@ -25,7 +28,7 @@ async_session_maker = async_sessionmaker(engine,expire_on_commit=False)
 
 async def create_db_and_tables():
     async with engine.begin() as connection:
-        await connection.run_sync(DeclarativeBase.metadata.create_all)
+        await connection.run_sync(Base.metadata.create_all)
         
         
 async def get_async_session() -> AsyncGenerator[AsyncSession,None]:
