@@ -3,10 +3,10 @@ services:
   terraform:
     image: hashicorp/terraform:1.14.3
     container_name: terraform
-    working_dir: /infra
     volumes:
-      - ./setup:/setup
-      - ./prod:/prod
+      - ./setup:/infra/setup
+      - ./prod:/infra/prod
+    working_dir: /infra
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
