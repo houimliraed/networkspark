@@ -1,0 +1,18 @@
+
+variable "tf-state-bucket" {
+
+    description = "bucket holding terraform state"
+    default = "onlinesocial-tf-state"
+  
+}
+
+variable "project" {
+
+    description = "project tag for resources in AWS"
+    default = "onlinesocial"
+  
+}
+variable "contact" {
+  description = "contact for tagged resouces in AWS"
+  default = "houimliraed@engineergrid.com"
+}
