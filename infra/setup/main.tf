@@ -8,7 +8,7 @@ terraform {
   }
   backend "s3" {
 
-    bucket       = "socialmedia-tf-state"
+    bucket       = "onlinesocial-tf-state"
     key          = "tf-state-setup"
     region       = "us-east-1"
     encrypt      = true
@@ -20,10 +20,10 @@ provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-        Environment = terraform.workspace
-        Project = var.project
-        Contact = var.contact
-        ManagedBy = "Terraform/Setup"
+      Environment = terraform.workspace
+      Project     = var.project
+      Contact     = var.contact
+      ManagedBy   = "Terraform/Setup"
     }
   }
 }

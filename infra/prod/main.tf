@@ -8,8 +8,9 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "socialmedia-tf-state"
+    bucket       = "onlinesocial-tf-state"
     key          = "tf-state-prod"
+    workspace_key_prefix = "tf-state-prod-env"
     region       = "us-east-1"
     encrypt      = true
     use_lockfile = true
@@ -21,10 +22,10 @@ provider "aws" {
 
   default_tags {
     tags = {
-        Environment = terraform.workspace
-        Project = var.project
-        Contact = var.contact
-        ManagedBy = "Terraform/Production"
+      Environment = terraform.workspace
+      Project     = var.project
+      Contact     = var.contact
+      ManagedBy   = "Terraform/Production"
     }
   }
 }

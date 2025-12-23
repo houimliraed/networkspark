@@ -6,6 +6,12 @@ variable "tf-state-bucket" {
   
 }
 
+variable "prefix" {
+    description = "prefix for resources in AWS"
+    default = "onlinesocial"
+  
+}
+
 variable "project" {
 
     description = "project tag for resources in AWS"
@@ -16,3 +22,4 @@ variable "contact" {
   description = "contact for tagged resouces in AWS"
   default = "houimliraed@engineergrid.com"
 }
+
