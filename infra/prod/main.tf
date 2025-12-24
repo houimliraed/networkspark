@@ -8,12 +8,12 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "onlinesocial-tf-state"
-    key          = "tf-state-prod"
+    bucket               = "onlinesocial-tf-state"
+    key                  = "tf-state-prod"
     workspace_key_prefix = "tf-state-prod-env"
-    region       = "us-east-1"
-    encrypt      = true
-    use_lockfile = true
+    region               = "us-east-1"
+    encrypt              = true
+    use_lockfile         = true
   }
 }
 
@@ -30,3 +30,8 @@ provider "aws" {
   }
 }
 
+locals {
+  prefix = "${var.prefix}-${terraform.workspace}"
+}
+
+data "aws_region" "current" {}
