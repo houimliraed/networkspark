@@ -44,3 +44,42 @@ resource "aws_iam_user_policy_attachment" "tf_backend" {
   policy_arn = aws_iam_policy.tf_backend.arn
 
 }
+
+
+#### policy for ecr repo
+
+data "aws_iam_policy_document" "ecr" {
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:CompleteLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:InitiateLayerUpload",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:PutImage",
+      "ecr:BatchGetImage"
+    ]
+    resources = [
+      aws_ecr_repository.onlinesocial_backend.arn
+    ]
+  }
+  statement {
+    effect    = "Allow"
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*"]
+  }
+
+}
+
+resource "aws_iam_policy" "ecr" {
+  name        = "${aws_iam_user.cd.name}-ecr"
+  description = "Allow the cd user for the ecr repo of the backend"
+  policy      = data.aws_iam_policy_document.ecr.json
+}
+
+resource "aws_iam_user_policy_attachment" "ecr" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.ecr.arn
+
+}

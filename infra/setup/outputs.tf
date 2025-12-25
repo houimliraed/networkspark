@@ -15,5 +15,5 @@ output "cd_user_access_key_secret" {
 
 output "ecr_repo_backend" {
   description = "the ECR repo URL for the backend app"
-  value = aws_ecr_repository.onlinesocial_backend.repository_url
+  value       = aws_ecr_repository.onlinesocial_backend.repository_url
 }
