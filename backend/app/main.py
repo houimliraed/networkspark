@@ -1,8 +1,5 @@
-
-import uvicorn
-from fastapi import FastAPI
-
-app = FastAPI()
+from app.app import app  # import your FastAPI instance
 
 if __name__ == "__main__":
-    uvicorn.run("app.app:app",host="0.0.0.0", port=4000,reload=True)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=4000, reload=True)

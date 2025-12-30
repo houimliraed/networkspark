@@ -1,0 +1,17 @@
+
+name: testing and linting
+
+on:
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    python:
+        name: Python
+        runs-on: ubuntu-latest
+        steps:
+            - name: code checkout  
+              uses: actions/checkout@v6
+
+

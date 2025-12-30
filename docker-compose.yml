@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:15
+    container_name: onlinesocial_db
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+      - pg:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  backend:
+    build: ./backend/
+    restart: always
+    depends_on:
+      - db
+      
+
+    env_file:
+      - ./backend/.env
+    ports:
+      - 4000:4000
+    
+volumes:
+  pg:
+
+    
+    
