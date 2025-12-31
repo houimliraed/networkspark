@@ -24,7 +24,7 @@ jobs:
               run: docker compose run --rm backend sh -c "flake8"
 
             - name: run python SAST
-              run: docker compose run --rm sh -c "bandit -r ."
+              run: docker compose run --rm backend sh -c "bandit -r ."
 
 
 
