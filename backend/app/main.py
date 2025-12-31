@@ -1,4 +1,5 @@
-from app.app import app  # import your FastAPI instance
+from app.app import app
+
 
 if __name__ == "__main__":
     import uvicorn
