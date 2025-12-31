@@ -2,7 +2,7 @@
 name: testing and linting
 
 on:
-    pull_request:
+    push:
         branches:
             - main
 
@@ -10,7 +10,7 @@ jobs:
     python:
         name: Python
         runs-on: ubuntu-latest
-        
+
         steps:
 
             - name: code checkout  
