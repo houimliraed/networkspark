@@ -10,8 +10,15 @@ jobs:
     python:
         name: Python
         runs-on: ubuntu-latest
+        
         steps:
+
             - name: code checkout  
               uses: actions/checkout@v6
+
+            - name: run the linting
+              run: docker compose run --rm backend sh -c "flake8"
+
+        
 
 

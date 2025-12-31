@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y build-essential \
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies globally
-RUN pip install --no-cache-dir "fastapi[all]" "python-dotenv" "asyncpg" "sqlalchemy[asyncio]" "psycopg2-binary" "boto3" "pytest" "pytest-asyncio" "httpx"
+RUN pip install --no-cache-dir "fastapi[all]" "python-dotenv" "asyncpg" "sqlalchemy[asyncio]" "psycopg2-binary" "boto3" "pytest" "pytest-asyncio" "httpx" "flake8"
 
 # Copy app code
 COPY . .

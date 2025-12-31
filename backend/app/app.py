@@ -1,10 +1,8 @@
 
-from fastapi import FastAPI,HTTPException, File, UploadFile, Form, Depends
-from app.schemas import PostCreate,PostResponse
-from app.db import Post, create_db_and_tables, create_async_engine
-from sqlalchemy.ext.asyncio import AsyncSession
-
+from fastapi import FastAPI
+from app.db import create_db_and_tables
 from contextlib import asynccontextmanager
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -16,9 +14,11 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+
 @app.get('/upload')
 async def upload_file():
     pass
+
 
 @app.get("/health")
 def health():
