@@ -23,6 +23,32 @@ jobs:
             - name: run the linting
               run: docker compose run --rm backend sh -c "flake8"
 
+            - name: run python SAST
+              run: docker compose run --rm sh -c "bandit -r ."
+
+
+
+    terraform:
+        name: Terraform
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v6
+
+            - name: terraform linting
+              run: |
+                cd infra/
+                docker compose run --rm terraform -chdir=prod init -backend=false
+                docker compose run --rm terraform -chdir=setup init -backend=false
+                docker compose run --rm terraform -chdir=prod fmt -check
+                docker compose run --rm terraform -chdir=setup fmt -check
+                docker compose run --rm terraform -chdir=prod validate
+                docker compose run --rm terraform -chdir=setup validate
+
+
+
+
+
         
 
 
