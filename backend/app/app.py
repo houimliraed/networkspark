@@ -17,3 +17,9 @@ app = FastAPI(
 )
 
 @app.get('/upload')
+async def upload_file():
+    pass
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
