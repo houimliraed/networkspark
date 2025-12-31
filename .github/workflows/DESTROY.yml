@@ -1,0 +1,16 @@
+name: Destroy Workflow
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Run destroy script
+        run: echo "Destroying resources.. dummy for now"

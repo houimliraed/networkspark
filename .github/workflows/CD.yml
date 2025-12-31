@@ -1,0 +1,15 @@
+name: Dummy CD Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Test placeholder step
+        run: echo "This is a dummy CD workflow. Nothing is deployed or destroyed for now."
