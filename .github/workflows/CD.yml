@@ -1,15 +1,38 @@
-name: Dummy CD Workflow
+name: Deploy
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - prod
 
 jobs:
-  test-cd:
+  CI:
+    uses: ./.github/workflows/CI.yml
+    with:
+      enable_checks: "false"  
+
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-
+    needs: [CI]
     steps:
-      - name: Checkout repository
+      - name: checkout
         uses: actions/checkout@v6
+      - name: Set Vars
+        run: |
+          if [[ $GITHUB_REFS == 'refs/heads/prod' ]]; then
+            echo "prod" > .workspace
+          else
+            echo "staging" > .workspace
+          fi
+      - name: Push to ECR
+        env:
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: | 
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+          docker build --compress -t ${{ vars.ECR_REPO_BACKEND }}:$GITHUB_SHA backend/
+          docker push ${{ vars.ECR_REPO_BACKEND }}:$GITHUB_SHA
 
-      - name: Test placeholder step
-        run: echo "This is a dummy CD workflow. Nothing is deployed or destroyed for now."
+     

@@ -1,54 +1,48 @@
-
 name: testing and linting
 
 on:
-    push:
-        branches:
-            - main
+  workflow_call:   
+    inputs:        
+      enable_checks:
+        required: false
+        default: "false"
+        type: string
 
 jobs:
-    python:
-        name: Python
-        runs-on: ubuntu-latest
-        env:
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  python:
+    name: Python
+    runs-on: ubuntu-latest
+    env:
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      ENABLE_CHECKS: ${{ inputs.enable_checks }}   
 
-        steps:
+    steps:
+      - name: code checkout  
+        uses: actions/checkout@v6
 
-            - name: code checkout  
-              uses: actions/checkout@v6
+      - name: run the linting
+        if: env.ENABLE_CHECKS == 'true'
+        run: docker compose run --rm backend sh -c "flake8"
 
-            - name: run the linting
-              run: docker compose run --rm backend sh -c "flake8"
+      - name: run python SAST
+        if: env.ENABLE_CHECKS == 'true'
+        run: docker compose run --rm backend sh -c "bandit -r ."
 
-            - name: run python SAST
-              run: docker compose run --rm backend sh -c "bandit -r ."
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
 
-
-
-    terraform:
-        name: Terraform
-        runs-on: ubuntu-latest
-        steps:
-            - name: checkout
-              uses: actions/checkout@v6
-
-            - name: terraform linting
-              run: |
-                cd infra/
-                docker compose run --rm terraform -chdir=prod init -backend=false
-                docker compose run --rm terraform -chdir=setup init -backend=false
-                docker compose run --rm terraform -chdir=prod fmt -check
-                docker compose run --rm terraform -chdir=setup fmt -check
-                docker compose run --rm terraform -chdir=prod validate
-                docker compose run --rm terraform -chdir=setup validate
-
-
-
-
-
-        
-
-
+      - name: terraform linting
+        run: |
+          cd infra/
+          docker compose run --rm terraform -chdir=prod init -backend=false
+          docker compose run --rm terraform -chdir=setup init -backend=false
+          docker compose run --rm terraform -chdir=prod fmt -check
+          docker compose run --rm terraform -chdir=setup fmt -check
+          docker compose run --rm terraform -chdir=prod validate
+          docker compose run --rm terraform -chdir=setup validate
