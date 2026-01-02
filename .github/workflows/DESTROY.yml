@@ -1,14 +1,29 @@
-name: Destroy Workflow
 
-on: 
+on:
   workflow_dispatch:
-    
+    inputs:
+      environment:
+        type: choice
+        description: "Which environment u wanna destroy?"
+        options:
+          - staging
+          - prod
+
 jobs:
-  destroy:
+  Destroy:
+    name: destroy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: checkout
         uses: actions/checkout@v6
 
-      - name: Run destroy script
-        run: echo "Destroying resources.. dummy for now"
+      - name: terraform destroy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          export TF_WORKSPACE=${{ github.event.inputs.environment }}
+          cd infra/
+          docker compose run --rm terraform -chdir=deploy/ init
+          docker compose run --rm terraform -chdir=deploy/ destroy --auto-approve
+
