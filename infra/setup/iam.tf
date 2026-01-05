@@ -90,6 +90,8 @@ data "aws_iam_policy_document" "ec2" {
   statement {
     effect = "Allow"
     actions = [
+      "ec2:DescribeAvailabilityZones",
+      "ec2:DescribeRegions",
       "ec2:DescribeVpcs",
       "ec2:CreateTags",
       "ec2:CreateVpc",
