@@ -130,7 +130,7 @@ resource "aws_vpc_endpoint" "ecr" {
   service_name        = "com.amazonaws.us-east-1.ecr.api"
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
-  
+
   subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
 
   security_group_ids = [
