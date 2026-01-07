@@ -101,3 +101,20 @@ resource "aws_subnet" "private_b" {
   }
 }
 
+# endpoints to allow ecs accessing ecr , cloud watch and systems manager
+
+resource "aws_security_group" "endpoint_access" {
+
+    description = "endpoint access"
+    name = "${local.prefix}-endpoint-access"
+    vpc_id = aws_vpc.main.id
+
+    ingress = {
+            cidr_blocks = [aws_vpc.main.cidr_block]
+            from_port = 443
+            to_port = 443
+            protocol = "tcp"
+        }
+     
+  
+}
