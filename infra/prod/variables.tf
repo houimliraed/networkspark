@@ -22,4 +22,8 @@ variable "contact" {
   description = "contact for tagged resouces in AWS"
   default     = "houimliraed@engineergrid.com"
 }
+variable "region" {
+  description = "aws region instead of hardcoding it"
+
+}
 
