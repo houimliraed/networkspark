@@ -204,3 +204,4 @@ resource "aws_vpc_endpoint" "s3" {
     Name = "${local.prefix}-s3-endpoint"
   }
 }
+
